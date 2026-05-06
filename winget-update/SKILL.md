@@ -12,7 +12,6 @@ Automate the analysis and manifest generation for updating packages in the commu
 1.  **Package Identification**
     * Execute `winget search -s winget <User_Input_Name>`.
     * **Goal:** Extract the precise **Id (Package ID)** and **Version (Current Version)** from the search results.
-    * *Note: If multiple results appear and no exact match found, ask the user to specify which one to proceed with.*
 
 2.  **Metadata Extraction**
     * Execute `winget show <Package_ID>`.
