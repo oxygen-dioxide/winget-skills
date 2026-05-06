@@ -1,0 +1,41 @@
+name: opencode winget update
+
+on:
+  issues:
+    types: [opened, reopened]
+
+jobs:
+  opencode:
+    if: contains(github.event.issue.title, '[winget-update]')
+    runs-on: windows-latest
+    permissions:
+      contents: read
+      issues: write
+      id-token: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 1
+          persist-credentials: false
+      
+      - name: Install Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Install komac and winget-create
+        run: |
+          winget install -e --id RussellBanks.Komac -s winget
+          winget install -e --id Microsoft.WingetCreate -s winget
+  
+      - name: Run OpenCode
+        uses: anomalyco/opencode/github@latest
+        with:
+          model: big-pickle
+          prompt: winget-update/SKILL.md
+      
+      - run: tree /F
+
+      - name: Submit Manifest
+        run: python find_manifest_and_submit.py ${{ secrets.TOKEN }}
