@@ -33,7 +33,7 @@ jobs:
         uses: anomalyco/opencode/github@latest
         with:
           model: opencode/big-pickle
-          prompt: winget-update/SKILL.md
+          prompt: Don't create PR or ask the user. Just follow winget-update/SKILL.md
       
       - run: tree /F
 
