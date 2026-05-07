@@ -24,16 +24,17 @@ jobs:
         with:
           python-version: '3.x'
 
-      - name: Install komac and winget-create
+      - name: Install dependencies
         run: |
           winget install -e --id RussellBanks.Komac -s winget
           winget install -e --id Microsoft.WingetCreate -s winget
+          winget install -e --id SST.opencode -s winget
   
       - name: Run OpenCode
-        uses: anomalyco/opencode/github@latest
-        with:
-          model: opencode/big-pickle
-          prompt: Don't create PR or ask the user. Just follow winget-update/SKILL.md
+        env:
+          ISSUE_BODY: ${{ github.event.issue.body }}
+          ISSUE_TITLE: ${{ github.event.issue.title }}
+        run: opencode run $($(Get-Content -Raw ./winget-update/SKILL.md)+$env:ISSUE_BODY)
       
       - run: tree /F
 
