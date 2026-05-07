@@ -37,6 +37,7 @@ jobs:
         run: |
           $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
           $full_prompt = "/winget-update`n`n" + $env:ISSUE_BODY
+          echo "Full Prompt: $full_prompt"
           opencode run "$full_prompt" --dangerously-skip-permissions
       
       - run: tree /F
