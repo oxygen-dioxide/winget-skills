@@ -1,12 +1,15 @@
 name: opencode winget update
 
 on:
-  issues:
-    types: [opened, reopened]
+  workflow_dispatch:
+    inputs:
+      packageid:
+        description: "Package ID"
+        required: true
+        type: string
 
 jobs:
   opencode:
-    if: contains(github.event.issue.title, '[winget-update]')
     runs-on: windows-latest
     permissions:
       contents: read
@@ -32,11 +35,10 @@ jobs:
   
       - name: Run OpenCode
         env:
-          ISSUE_BODY: ${{ github.event.issue.body }}
-          ISSUE_TITLE: ${{ github.event.issue.title }}
+          PACKAGE_ID: ${{ inputs.packageid }}
         run: |
           $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
-          $full_prompt = "/winget-update`n`n" + $env:ISSUE_BODY
+          $full_prompt = "/winget-update`n`n The package ID to update:" + $env:PACKAGE_ID
           echo "Full Prompt: $full_prompt"
           opencode run "$full_prompt" --dangerously-skip-permissions
       
