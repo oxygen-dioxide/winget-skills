@@ -36,7 +36,9 @@ jobs:
           ISSUE_TITLE: ${{ github.event.issue.title }}
         run: |
           $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
-          opencode run $($(Get-Content -Raw ./winget-update/SKILL.md)+$env:ISSUE_BODY)
+          $skill = Get-Content -Raw ./winget-update/SKILL.md
+          $full_prompt = $skill + "`n`n" + $env:ISSUE_BODY
+          opencode run "$full_prompt" --dangerously-skip-permissions
       
       - run: tree /F
 
