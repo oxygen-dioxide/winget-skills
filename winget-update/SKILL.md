@@ -14,7 +14,7 @@ Automate the analysis and manifest generation for updating packages in the commu
     * **Goal:** Extract the precise **Id (Package ID)** and **Version (Current Version)** from the search results.
 
 2.  **Metadata Extraction**
-    * Execute `winget show <Package_ID>`.
+    * Execute `winget show -s winget <Package_ID>`.
     * **Goal:** Record the existing installer architectures (e.g., x64, arm64, x86) and the official **Website URL**.
 
 3.  **Upstream Version Check**
